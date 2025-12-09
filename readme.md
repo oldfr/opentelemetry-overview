@@ -1,0 +1,3 @@
+-javaagent:"/home/ankitha/Desktop/Projects 2025/opentelemetry-overview/opentelemetry-javaagent.jar"
+-Dotel.service.name=my-service
+-Dotel.logs.exporter=otlp
