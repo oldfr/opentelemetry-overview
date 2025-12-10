@@ -1,0 +1,58 @@
+{
+	"info": {
+		"_postman_id": "6a1cde42-0ef8-45ab-bae9-ed88afcaa3a5",
+		"name": "New Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "OpenTelemetry POST",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8083/test",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"test"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test Opentelemetry log export",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"resourceLogs\": []\n}"
+				},
+				"url": {
+					"raw": "http://localhost:4318/v1/logs",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4318",
+					"path": [
+						"v1",
+						"logs"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
