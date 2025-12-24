@@ -18,16 +18,15 @@ import io.opentelemetry.sdk.metrics.export.PeriodicMetricReader;
 import io.opentelemetry.sdk.resources.Resource;
 import io.opentelemetry.sdk.trace.SdkTracerProvider;
 import io.opentelemetry.sdk.trace.export.BatchSpanProcessor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class OpenTelemetryConfig {
 
-    private static final String OTLP_ENDPOINT = "http://localhost:4317";
-
     @Bean
-    public OpenTelemetry openTelemetry() {
+    public OpenTelemetry openTelemetry(@Value("${exporter.otlp.endpoint}") String otlpEndpoint) {
 
         Resource resource = Resource.getDefault().toBuilder()
                 .put("ResourceAttributes.SERVICE_NAME", "spring-service")
@@ -35,7 +34,7 @@ public class OpenTelemetryConfig {
 
         // ---------- Traces ----------
         OtlpGrpcSpanExporter spanExporter = OtlpGrpcSpanExporter.builder()
-                .setEndpoint(OTLP_ENDPOINT)
+                .setEndpoint(otlpEndpoint)
                 .build();
 
         SdkTracerProvider tracerProvider = SdkTracerProvider.builder()
@@ -45,7 +44,7 @@ public class OpenTelemetryConfig {
 
         // ---------- Metrics ----------
         OtlpGrpcMetricExporter metricExporter = OtlpGrpcMetricExporter.builder()
-                .setEndpoint(OTLP_ENDPOINT)
+                .setEndpoint(otlpEndpoint)
                 .build();
 
         SdkMeterProvider meterProvider = SdkMeterProvider.builder()
@@ -55,7 +54,7 @@ public class OpenTelemetryConfig {
 
         // ---------- Logs ----------
         OtlpGrpcLogRecordExporter logExporter = OtlpGrpcLogRecordExporter.builder()
-                .setEndpoint(OTLP_ENDPOINT)
+                .setEndpoint(otlpEndpoint)
                 .build();
 
         SdkLoggerProvider loggerProvider = SdkLoggerProvider.builder()
@@ -75,8 +74,8 @@ public class OpenTelemetryConfig {
     }
 
     private ContextPropagators getContextPropagators() {
-        TextMapPropagator textMapPropagator = W3CTraceContextPropagator.getInstance(); // if w3c trace Propagation needed
-        W3CBaggagePropagator baggagePropagator = W3CBaggagePropagator.getInstance(); // if baggage Propagation needed
+        TextMapPropagator textMapPropagator = W3CTraceContextPropagator.getInstance(); // if W3C Trace Propagation needed
+        W3CBaggagePropagator baggagePropagator = W3CBaggagePropagator.getInstance(); // if Baggage Propagation needed
 
         return ContextPropagators.create(
                 TextMapPropagator.composite(B3Propagator.injectingMultiHeaders())
