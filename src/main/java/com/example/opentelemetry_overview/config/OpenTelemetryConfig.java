@@ -19,6 +19,7 @@ import io.opentelemetry.sdk.resources.Resource;
 import io.opentelemetry.sdk.trace.SdkTracerProvider;
 import io.opentelemetry.sdk.trace.export.BatchSpanProcessor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.actuate.autoconfigure.opentelemetry.OpenTelemetryResourceAttributes;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -29,7 +30,7 @@ public class OpenTelemetryConfig {
     public OpenTelemetry openTelemetry(@Value("${exporter.otlp.endpoint}") String otlpEndpoint) {
 
         Resource resource = Resource.getDefault().toBuilder()
-                .put("ResourceAttributes.SERVICE_NAME", "spring-service")
+                .put("serviceName","opentelemetry-overview" )
                 .build();
 
         // ---------- Traces ----------
